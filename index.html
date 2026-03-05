@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Elvin Cinema</title>
+<title>ELVIN CINEMA</title>
 
 <style>
 
@@ -15,16 +15,28 @@ color:white;
 
 header{
 background:black;
-padding:15px;
+padding:20px;
 font-size:28px;
 color:red;
 text-align:center;
 font-weight:bold;
 }
 
+.search{
+text-align:center;
+margin:20px;
+}
+
+.search input{
+padding:10px;
+width:300px;
+border:none;
+border-radius:5px;
+}
+
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fill,220px);
+grid-template-columns:repeat(auto-fill,200px);
 gap:20px;
 padding:30px;
 justify-content:center;
@@ -34,6 +46,7 @@ justify-content:center;
 background:#1f1f1f;
 border-radius:10px;
 overflow:hidden;
+cursor:pointer;
 transition:0.3s;
 }
 
@@ -47,6 +60,7 @@ width:100%;
 
 .card p{
 padding:10px;
+text-align:center;
 }
 
 .player{
@@ -65,33 +79,74 @@ margin-top:20px;
 
 <header>ELVIN CINEMA 🎬</header>
 
-<iframe class="player"
-src="https://vidsrc.to/embed/movie/tt4154796"
-allowfullscreen></iframe>
-
-<div class="grid">
-
-<div class="card">
-<img src="https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg">
-<p>Avengers Endgame</p>
+<div class="search">
+<input type="text" id="search" placeholder="Film axtar...">
 </div>
 
-<div class="card">
-<img src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg">
-<p>Joker</p>
-</div>
+<iframe id="player" class="player" allowfullscreen></iframe>
 
-<div class="card">
-<img src="https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg">
-<p>Interstellar</p>
-</div>
+<div class="grid" id="movies"></div>
 
-<div class="card">
-<img src="https://image.tmdb.org/t/p/w500/fIE3lAGcZDV1G6XM5KmuWnNsPp1.jpg">
-<p>Spider-Man</p>
-</div>
+<script>
 
-</div>
+const API_KEY = "e19de15060a15796f5abd7546cd21dfe"
+const IMG = "https://image.tmdb.org/t/p/w500"
+const moviesDiv = document.getElementById("movies")
+
+async function loadMovies(){
+
+for(let page=1; page<=20; page++){
+
+let res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`)
+let data = await res.json()
+
+data.results.forEach(movie=>{
+
+let card = document.createElement("div")
+card.className="card"
+
+card.innerHTML = `
+<img src="${IMG + movie.poster_path}">
+<p>${movie.title}</p>
+`
+
+card.onclick = ()=>{
+document.getElementById("player").src =
+`https://vidsrc.to/embed/movie/${movie.id}`
+}
+
+moviesDiv.appendChild(card)
+
+})
+
+}
+
+}
+
+loadMovies()
+
+document.getElementById("search").addEventListener("input", function(){
+
+let value = this.value.toLowerCase()
+let cards = document.querySelectorAll(".card")
+
+cards.forEach(card=>{
+
+let title = card.innerText.toLowerCase()
+
+if(title.includes(value)){
+card.style.display="block"
+}else{
+card.style.display="none"
+}
+
+})
+
+})
+
+</script>
+
+<!-- REKLAM KODU -->
 
 <script src="https://pl28853240.effectivegatecpm.com/74/48/92/74489256fb3e2c3cf9460a8d8b5bbb80.js"></script>
 
