@@ -1,25 +1,77 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Film Saytı</title>
+<meta charset="UTF-8">
+<title>Film Site</title>
+
+<style>
+
+body{
+background:#111;
+color:white;
+font-family:Arial;
+margin:0;
+}
+
+header{
+background:black;
+padding:15px;
+font-size:24px;
+color:red;
+font-weight:bold;
+}
+
+.movies{
+display:flex;
+flex-wrap:wrap;
+padding:20px;
+}
+
+.movie{
+margin:10px;
+}
+
+.movie img{
+width:200px;
+border-radius:10px;
+transition:0.3s;
+}
+
+.movie img:hover{
+transform:scale(1.1);
+}
+
+</style>
+
 </head>
 
-<body style="background:black; color:white; text-align:center;">
+<body>
 
-<h1>🎬 Mənim Film Saytım</h1>
-<p>Burada sevdiyim filmlər var</p>
+<header>
+ELVIN FILM 🎬
+</header>
 
-<h2>1. Fast & Furious</h2>
-<img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Fast_X_poster.jpg" width="200">
+<div class="movies">
 
-<h2>2. Spider Man</h2>
-<img src="https://upload.wikimedia.org/wikipedia/en/0/00/Spider-Man_No_Way_Home_poster.jpg" width="200">
+<div class="movie">
+<a href="https://www.youtube.com/watch?v=TcMBFSGVi1c">
+<img src="https://img.youtube.com/vi/TcMBFSGVi1c/0.jpg">
+</a>
+</div>
 
-<h2>3. Batman</h2>
-<img src="https://upload.wikimedia.org/wikipedia/en/8/87/The_Batman_poster.jpg" width="200">
+<div class="movie">
+<a href="https://www.youtube.com/watch?v=EXeTwQWrcwY">
+<img src="https://img.youtube.com/vi/EXeTwQWrcwY/0.jpg">
+</a>
+</div>
 
-<p>© 2026 Mənim saytım</p>
+<div class="movie">
+<a href="https://www.youtube.com/watch?v=6ZfuNTqbHE8">
+<img src="https://img.youtube.com/vi/6ZfuNTqbHE8/0.jpg">
+</a>
+</div>
+
+</div>
 
 </body>
 </html>
