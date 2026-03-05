@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,18 +16,31 @@ color:white;
 
 header{
 background:black;
-padding:15px;
-font-size:28px;
+padding:20px;
+font-size:30px;
 color:red;
 text-align:center;
 font-weight:bold;
 }
 
+.search{
+text-align:center;
+margin:20px;
+}
+
+.search input{
+padding:12px;
+width:320px;
+border-radius:6px;
+border:none;
+font-size:16px;
+}
+
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fill,220px);
+grid-template-columns:repeat(auto-fill,200px);
 gap:20px;
-padding:30px;
+padding:20px;
 justify-content:center;
 }
 
@@ -34,11 +48,12 @@ justify-content:center;
 background:#1f1f1f;
 border-radius:10px;
 overflow:hidden;
+cursor:pointer;
 transition:0.3s;
 }
 
 .card:hover{
-transform:scale(1.05);
+transform:scale(1.07);
 }
 
 .card img{
@@ -47,6 +62,7 @@ width:100%;
 
 .card p{
 padding:10px;
+font-size:14px;
 }
 
 .player{
@@ -55,6 +71,7 @@ height:500px;
 margin:auto;
 display:block;
 margin-top:20px;
+border:none;
 }
 
 </style>
@@ -65,35 +82,69 @@ margin-top:20px;
 
 <header>ELVIN CINEMA 🎬</header>
 
-<iframe class="player"
-src="https://vidsrc.to/embed/movie/tt4154796"
-allowfullscreen></iframe>
+<div class="search">
+<input type="text" id="search" placeholder="Film axtar...">
+</div>
+
+<iframe class="player" id="player" allowfullscreen></iframe>
 
 <div class="grid" id="movies"></div>
 
 <script>
 
-const apiKey = "e19de15060a15796f5abd7546cd21dfe";
+const apiKey="e19de15060a15796f5abd7546cd21dfe";
 
-fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`)
-.then(res => res.json())
-.then(data => {
+const moviesDiv=document.getElementById("movies");
+const player=document.getElementById("player");
 
-const moviesDiv = document.getElementById("movies");
+function loadMovies(url){
 
-data.results.forEach(movie => {
+fetch(url)
+.then(res=>res.json())
+.then(data=>{
 
-const card = document.createElement("div");
+moviesDiv.innerHTML="";
+
+data.results.forEach(movie=>{
+
+if(!movie.poster_path) return;
+
+const card=document.createElement("div");
 card.classList.add("card");
 
-card.innerHTML = `
+card.innerHTML=`
 <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
 <p>${movie.title}</p>
 `;
 
+card.onclick=()=>{
+player.src=`https://vidsrc.to/embed/movie/${movie.id}`;
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
 moviesDiv.appendChild(card);
 
 });
+
+});
+
+}
+
+loadMovies(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`);
+
+document.getElementById("search").addEventListener("keyup",function(){
+
+const q=this.value;
+
+if(q.length>2){
+
+loadMovies(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${q}`);
+
+}else{
+
+loadMovies(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`);
+
+}
 
 });
 
